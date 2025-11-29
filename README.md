@@ -44,7 +44,7 @@ o	Dozens of segfaults in sshd at the same memory address (RIP 8048e33), all with
 o	Evidence: The clustering of crashes across multiple PIDs shows instability triggered by repeated malicious inputs, not random system errors.
 
 
-
+![Alt text](path/to/image.jpg)
 
 
 
@@ -64,7 +64,7 @@ o	Multiple entries show “Accepted password for dhg” from IP 190.166.87.164 a
 o	Evidence: Direct root logins from IPs like 151.81.204.141 and 122.226.202.12, confirming attackers had full administrative control
 
 
-
+![Alt text](Analysis/Screenshots/Accepted_Password.jpg)
 
 
 
