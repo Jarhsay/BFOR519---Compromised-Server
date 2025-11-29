@@ -13,35 +13,35 @@ Overall, the project emulates real-world work performed by SOC Analysts, Threat 
 # Methodology
 1. Environment Setup
 Commands executed: <br>
-sudo apt update — Updates package list <br>
-sudo apt install lnav -y — Installs lnav <br>
-lnav --version — Confirms installation <br>
+•sudo apt update — Updates package list <br>
+•sudo apt install lnav -y — Installs lnav <br>
+•lnav --version — Confirms installation <br>
 
 
-3. Tools Used
-•	Ubuntu / WSL for running commands
-•	lnav for log navigation and filtering
-•	sanitized_log directory containing raw log files
+3. Tools Used <br>
+•	Ubuntu / WSL for running commands <br>
+•	lnav for log navigation and filtering <br>
+•	sanitized_log directory containing raw log files <br>
 
-4. Opening Logs in lnav
-•	lnav /mnt/d/sanitized_log/
-•	lnav automatically loads all supported log formats.
+4. Opening Logs in lnav <br>
+•	lnav /mnt/d/sanitized_log/ <br>
+•	lnav automatically loads all supported log formats. <br>
 
-5. Filters Applied (lnav)
-Inside lnav, the following filters were used:
-•	filter-in sshd.*segfault — Shows SSH segmentation faults
-•	filter-in accepted password — Shows successful SSH logins
-•	filter-in su:.*root — Shows privilege escalation attempts via su.
-•	filter-in php — Shows PHP-related log events
-•	filter-in invalid user — Highlights brute-force or unauthorized login attempts
+5. Filters Applied (lnav) <br>
+Inside lnav, the following filters were used:<br>
+•	filter-in sshd.*segfault — Shows SSH segmentation faults <br>
+•	filter-in accepted password — Shows successful SSH logins <br>
+•	filter-in su:.*root — Shows privilege escalation attempts via su. <br>
+•	filter-in php — Shows PHP-related log events <br>
+•	filter-in invalid user — Highlights brute-force or unauthorized login attempts. <br>
 
 # Screenshots & Evidence
-# 1) sshd segfault
+# 1) sshd segfault <br>
 Filter used : - :filter-in sshd.*segfault
 
-# Evidence: 
-Dozens of segfaults in sshd at the same memory address (RIP 8048e33), all within seconds, pointing to exploit attempts or binary corruption.
-The clustering of crashes across multiple PIDs shows instability triggered by repeated malicious inputs, not random system errors.
+# Evidence: <br>
+Dozens of segfaults in sshd at the same memory address (RIP 8048e33), all within seconds, pointing to exploit attempts or binary corruption. <br>
+The clustering of crashes across multiple PIDs shows instability triggered by repeated malicious inputs, not random system errors. <br>
 
 
 ![Alt text](Analysis/Screenshots/sshd_segfaults.jpg)
@@ -56,12 +56,12 @@ The clustering of crashes across multiple PIDs shows instability triggered by re
 
 
 
-# 2) accepted password 
-Filter used : - :filter-in accepted password
+# 2) accepted password <br>
+Filter used : - :filter-in accepted password <br>
  
 # Evidence: 
-Multiple entries show “Accepted password for dhg” from IP 190.166.87.164 across different times, proving repeated external access.
-Direct root logins from IPs like 151.81.204.141 and 122.226.202.12, confirming attackers had full administrative control
+Multiple entries show “Accepted password for dhg” from IP 190.166.87.164 across different times, proving repeated external access. <br>
+Direct root logins from IPs like 151.81.204.141 and 122.226.202.12, confirming attackers had full administrative control. <br>
 
 
 ![Alt text](Analysis/Screenshots/Accepted_Password.jpg)
@@ -76,13 +76,13 @@ Direct root logins from IPs like 151.81.204.141 and 122.226.202.12, confirming a
 
 
 
-# 3) su.*root
-Filter used : - filter-in su:.*root
+# 3) su.*root <br>
+Filter used : - filter-in su:.*root <br>
  
 
 # Evidence: 
-Multiple entries show “session opened for user root” by user1 and user3, confirming privilege escalation from non-root accounts.
-Authentication failures followed by successful su attempts highlight weak or shared root credentials being abused.
+Multiple entries show “session opened for user root” by user1 and user3, confirming privilege escalation from non-root accounts. <br>
+Authentication failures followed by successful su attempts highlight weak or shared root credentials being abused. <br>
 
 
 ![Alt text](Analysis/Screenshots/Su_root.jpg)
@@ -98,12 +98,12 @@ Authentication failures followed by successful su attempts highlight weak or sha
 
 
 
-# 4) php
-Filter used:- filter-in php
+# 4) php <br>
+Filter used:- filter-in php <br>
  
 # Evidence: 
-Suspicious GET requests to wantsfly.com/prx2.php with hash parameters, indicating possible malicious probing or beaconing.
-WordPress activity (wp-cron.php, plugin scripts) alongside repeated 404s suggests attackers were testing vulnerable endpoints in the PHP stack.
+Suspicious GET requests to wantsfly.com/prx2.php with hash parameters, indicating possible malicious probing or beaconing. <br>
+WordPress activity (wp-cron.php, plugin scripts) alongside repeated 404s suggests attackers were testing vulnerable endpoints in the PHP stack. <br>
 
 
 ![Alt text](Analysis/Screenshots/PHP.jpg)
@@ -119,13 +119,13 @@ WordPress activity (wp-cron.php, plugin scripts) alongside repeated 404s suggest
 
 
 
-# 5) invalid user 
-Filter used:- filter-in Invalid user 
+# 5) invalid user  <br>
+Filter used:- filter-in Invalid user  <br>
  
 
 # Evidence: 
-Rapid sequence of “Invalid user” attempts from IP 65.208.122.48, cycling through usernames (diana, cam, astro, etc.) every few seconds.
-Each failed password attempt is paired with a port number, showing an automated tool systematically probing the server.
+Rapid sequence of “Invalid user” attempts from IP 65.208.122.48, cycling through usernames (diana, cam, astro, etc.) every few seconds. <br>
+Each failed password attempt is paired with a port number, showing an automated tool systematically probing the server. <br>
 
 
 ![Alt text](Analysis/Screenshots/Brute Force.jpg)
@@ -141,79 +141,79 @@ Each failed password attempt is paired with a port number, showing an automated 
 
 
 # Indicators of Compromise (IOCs)
-1.	Compromised Accounts
-•	root – multiple successful logins from external Ips
-•	dhg – repeated successful logins from 190.166.87.164 and 190.167.74.184
-•	user1 – successful logins from 65.88.2.5 and 208.80.69.70
-•	 fido – successful login from 94.52.185.9
-•	user3 – suspicious su activity to root
+1.	Compromised Accounts <br>
+•	root – multiple successful logins from external Ips <br>
+•	dhg – repeated successful logins from 190.166.87.164 and 190.167.74.184 <br>
+•	user1 – successful logins from 65.88.2.5 and 208.80.69.70 <br>
+•	 fido – successful login from 94.52.185.9 <br>
+•	user3 – suspicious su activity to root <br>
 
-2.	 Malicious IP Addresses
-•	Successful SSH Logins
-o	190.166.87.164
-o	190.167.74.184
-o	151.81.204.141
-o	151.81.205.100
-o	122.226.202.12
-o	88.214.26.70
-o	61.168.227.12
-o	94.52.185.9
-o	188.131.23.37
-o	65.88.2.5
-o	208.80.69.70
+2.	 Malicious IP Addresses <br>
+•	Successful SSH Logins <br>
+o	190.166.87.164 <br>
+o	190.167.74.184 <br>
+o	151.81.204.141 <br>
+o	151.81.205.100 <br>
+o	122.226.202.12 <br>
+o	88.214.26.70 <br>
+o	61.168.227.12 <br>
+o	94.52.185.9 <br>
+o	188.131.23.37 <br>
+o	65.88.2.5 <br>
+o	208.80.69.70 <br>
 
-3.	Brute-force Source
-•	65.208.122.48 (invalid user flood, rapid attempts across dozens of usernames)
+3.	Brute-force Source <br>
+•	65.208.122.48 (invalid user flood, rapid attempts across dozens of usernames). <br>
 
-4.	System Instability
-•	Repeated sshd segfaults at memory address:
-•	RIP: 8048e33
-•	Error code: 4
-•	Pattern: Dozens of crashes in bursts, across multiple PIDs.
-5.	Web Layer Indicators
-•	Suspicious external requests to:
-•	wantsfly.com/prx2.php (with hash parameters)
-•	WordPress activity:
-•	wp-cron.php
-•	Plugin paths (e.g., google-syntax-highlighter)
-•	Frequent 404 probes against /img/original/... paths.
+4.	System Instability <br>
+•	Repeated sshd segfaults at memory address: <br>
+•	RIP: 8048e33 <br>
+•	Error code: 4 <br>
+•	Pattern: Dozens of crashes in bursts, across multiple PIDs. <br>
+5.	Web Layer Indicators <br>
+•	Suspicious external requests to: <br>
+•	wantsfly.com/prx2.php (with hash parameters) <br>
+•	WordPress activity: <br>
+•	wp-cron.php <br>
+•	Plugin paths (e.g., google-syntax-highlighter) <br>
+•	Frequent 404 probes against /img/original/... paths. <br>
 
-6.	Behavioral Indicators
-•	Persistence: Repeated successful logins over multiple days from rotating IPs.
-•	Privilege Escalation: Frequent su attempts to root by user1 and user3.
-•	Brute-force: Automated spray attempts every 2 seconds from 65.208.122.48.
+6.	Behavioral Indicators <br>
+•	Persistence: Repeated successful logins over multiple days from rotating IPs. <br>
+•	Privilege Escalation: Frequent su attempts to root by user1 and user3. <br>
+•	Brute-force: Automated spray attempts every 2 seconds from 65.208.122.48. <br>
 
-# Key Findings
-1.	Direct Root Compromise
-•	Multiple successful SSH logins to the root account from external IPs.
-•	This confirms full system compromise with attackers gaining unrestricted control.
+# Key Findings 
+1.	Direct Root Compromise <br>
+•	Multiple successful SSH logins to the root account from external IPs. <br>
+•	This confirms full system compromise with attackers gaining unrestricted control. <br>
 
-2.	Multiple Account Breaches
-•	Accounts dhg, user1, and fido also show successful logins from suspicious IPs.
-•	Indicates broad credential exposure and attacker persistence across different user levels.
+2.	Multiple Account Breaches <br>
+•	Accounts dhg, user1, and fido also show successful logins from suspicious IPs. <br>
+•	Indicates broad credential exposure and attacker persistence across different user levels. <br>
 
-3.	Brute-force Attack Evidence
-•	Source IP 65.208.122.48 launched rapid, automated login attempts against dozens of usernames.
-•	Confirms the server was exposed to internet-wide scanning and password-spray campaigns.
-4.	Privilege Escalation via su
-•	Frequent su attempts to root by user1 and user3, with failures followed by successes.
-•	Suggests lateral movement and exploitation of shared or weak root credentials.
-5.	System Instability (sshd segfaults)
-•	Kernel logs show repeated sshd segmentation faults at the same memory address.
-•	Strongly suggests exploit attempts or binary tampering, undermining system integrity.
+3.	Brute-force Attack Evidence <br>
+•	Source IP 65.208.122.48 launched rapid, automated login attempts against dozens of usernames. <br>
+•	Confirms the server was exposed to internet-wide scanning and password-spray campaigns. <br>
+4.	Privilege Escalation via su <br>
+•	Frequent su attempts to root by user1 and user3, with failures followed by successes. <br> 
+•	Suggests lateral movement and exploitation of shared or weak root credentials. <br>
+5.	System Instability (sshd segfaults) <br>
+•	Kernel logs show repeated sshd segmentation faults at the same memory address. <br>
+•	Strongly suggests exploit attempts or binary tampering, undermining system integrity. <br>
 
-6.	Web Layer Exposure
-•	WordPress cron jobs and plugin activity observed.
-•	Suspicious external requests (e.g., wantsfly.com/prx2.php) and repeated 404 probes.
-•	Indicates attackers may have targeted or exploited the WordPress/PHP stack.
-7.	Persistence Across Days
-•	Successful logins and activity spread over multiple days.
-•	Attackers maintained ongoing access, not just a one-time intrusion.
+6.	Web Layer Exposure <br>
+•	WordPress cron jobs and plugin activity observed. <br>
+•	Suspicious external requests (e.g., wantsfly.com/prx2.php) and repeated 404 probes. <br>
+•	Indicates attackers may have targeted or exploited the WordPress/PHP stack. <br>
+7.	Persistence Across Days <br>
+•	Successful logins and activity spread over multiple days. <br>
+•	Attackers maintained ongoing access, not just a one-time intrusion. <br>
 
-8.	Impact Assessment
-•	Confidentiality: All data exposed due to root access.
-•	Integrity: System binaries and configs likely tampered with.
-•	Availability: sshd crashes caused instability.
+8.	Impact Assessment <br>
+•	Confidentiality: All data exposed due to root access. <br>
+•	Integrity: System binaries and configs likely tampered with. <br>
+•	Availability: sshd crashes caused instability. <br>
 
 
 
@@ -221,50 +221,50 @@ o	208.80.69.70
 
 
 # Recommendation
-1.	Immediate Isolation
-•	Disconnect the server from the network to prevent further attacker activity.
-•	Disable all external SSH access immediately.
-2.	Full System Reinstallation (Mandatory)
-•	Due to confirmed root compromise, sshd crashes, and potential binary tampering, the operating system cannot be trusted.
-•	Perform a full OS reinstall on clean media.
-•	Do not reuse existing binaries, libraries, or configurations.
-3.	Credential Reset
-•	Reset all passwords for:
-o	System users
-o	Admin accounts
-o	WordPress / PHP application users
-o	Database accounts
-•	Ensure passwords meet strong complexity requirements.
-•	Rotate SSH keys and revoke compromised ones.
-4.	Rebuild SSH and Authentication Security
-•	Disable password authentication; use SSH keys only.
-•	Configure fail2ban or equivalent intrusion-prevention tools.
-•	Restrict SSH access to specific IP addresses if possible.
-5.	Harden Web Stack (WordPress/PHP)
-•	Reinstall WordPress and all plugins from trusted sources.
-•	Remove unused plugins and themes.
-•	Rotate database credentials.
-•	Review WP-Cron and plugin activity logs for backdoors.
-6.	Log and Forensic Review (Post-Rebuild)
-•	Compare all identified malicious IPs against new logs.
-•	Enable centralized logging and monitoring.
-•	Implement regular integrity checks (e.g., AIDE).
-7.	Network Security Improvements
-•	Place server behind a firewall.
-•	Limit exposed services only expose what is absolutely necessary.
-•	Add rate-limiting and geo-blocking where appropriate.
-8.	Long-Term Recommendations
-•	Enforce regular updates and patching.
-•	Enable 2FA for admin interfaces.
-•	Perform periodic security audits.
+1.	Immediate Isolation <br> 
+•	Disconnect the server from the network to prevent further attacker activity. <br>
+•	Disable all external SSH access immediately. <br>
+2.	Full System Reinstallation (Mandatory) <br>
+•	Due to confirmed root compromise, sshd crashes, and potential binary tampering, the operating system cannot be trusted. <br>
+•	Perform a full OS reinstall on clean media. <br>
+•	Do not reuse existing binaries, libraries, or configurations. <br>
+3.	Credential Reset <br>
+•	Reset all passwords for: <br> 
+o	System users <br>
+o	Admin accounts <br>
+o	WordPress / PHP application users <br>
+o	Database accounts <br>
+•	Ensure passwords meet strong complexity requirements. <br>
+•	Rotate SSH keys and revoke compromised ones. <br>
+4.	Rebuild SSH and Authentication Security <br>
+•	Disable password authentication; use SSH keys only. <br>
+•	Configure fail2ban or equivalent intrusion-prevention tools. <br>
+•	Restrict SSH access to specific IP addresses if possible. <br>
+5.	Harden Web Stack (WordPress/PHP) <br>
+•	Reinstall WordPress and all plugins from trusted sources. <br>
+•	Remove unused plugins and themes. <br>
+•	Rotate database credentials. <br>
+•	Review WP-Cron and plugin activity logs for backdoors. <br>
+6.	Log and Forensic Review (Post-Rebuild) <br>
+•	Compare all identified malicious IPs against new logs. <br>
+•	Enable centralized logging and monitoring. <br>
+•	Implement regular integrity checks (e.g., AIDE). <br>
+7.	Network Security Improvements <br>
+•	Place server behind a firewall. <br>
+•	Limit exposed services only expose what is absolutely necessary. <br>
+•	Add rate-limiting and geo-blocking where appropriate. <br>
+8.	Long-Term Recommendations <br>
+•	Enforce regular updates and patching.  <br>
+•	Enable 2FA for admin interfaces.  <br>
+•	Perform periodic security audits. <br>
 
 
 
 
 
 # Conclusion
-The investigation shows that the server was not secure and was accessed by outsiders in ways that should never have been possible. There are clear signs of repeated logins, suspicious activity from different places, and unusual behavior that points to the system being under someone else’s control.
-The activity wasn’t just a one time event it continued over several days, showing that whoever got in was able to stay connected and move around freely. Alongside this, there were signs of instability and probing of the server’s applications, which suggests the compromise went beyond simple password guessing.
+The investigation shows that the server was not secure and was accessed by outsiders in ways that should never have been possible. There are clear signs of repeated logins, suspicious activity from different places, and unusual behavior that points to the system being under someone else’s control. 
+The activity wasn’t just a one time event it continued over several days, showing that whoever got in was able to stay connected and move around freely. Alongside this, there were signs of instability and probing of the server’s applications, which suggests the compromise went beyond simple password guessing. 
 In short, the system was fully taken over. The safest path forward is to rebuild it from scratch, change all access credentials, and put stronger protections in place so this kind of incident cannot happen again.
 
 
