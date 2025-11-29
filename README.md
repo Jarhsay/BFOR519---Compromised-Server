@@ -13,21 +13,21 @@ Overall, the project emulates real-world work performed by SOC Analysts, Threat 
 # Methodology
 1. Environment Setup
 Commands executed:
-<br> sudo apt update — Updates package list <br>
-<br> sudo apt install lnav -y — Installs lnav <br>
-<br> lnav --version — Confirms installation <br>
+sudo apt update — Updates package list <br>
+sudo apt install lnav -y — Installs lnav <br>
+lnav --version — Confirms installation <br>
 
 
-2. Tools Used
+3. Tools Used
 •	Ubuntu / WSL for running commands
 •	lnav for log navigation and filtering
 •	sanitized_log directory containing raw log files
 
-3. Opening Logs in lnav
+4. Opening Logs in lnav
 •	lnav /mnt/d/sanitized_log/
 •	lnav automatically loads all supported log formats.
 
-4. Filters Applied (lnav)
+5. Filters Applied (lnav)
 Inside lnav, the following filters were used:
 •	filter-in sshd.*segfault — Shows SSH segmentation faults
 •	filter-in accepted password — Shows successful SSH logins
