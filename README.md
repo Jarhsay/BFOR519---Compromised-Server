@@ -39,9 +39,9 @@ Inside lnav, the following filters were used:
 1) sshd segfault
 Filter used : - :filter-in sshd.*segfault
 
-•  Evidence: 
-o	Dozens of segfaults in sshd at the same memory address (RIP 8048e33), all within seconds, pointing to exploit attempts or binary corruption.
-o	Evidence: The clustering of crashes across multiple PIDs shows instability triggered by repeated malicious inputs, not random system errors.
+# Evidence: 
+Dozens of segfaults in sshd at the same memory address (RIP 8048e33), all within seconds, pointing to exploit attempts or binary corruption.
+Evidence: The clustering of crashes across multiple PIDs shows instability triggered by repeated malicious inputs, not random system errors.
 
 
 ![Alt text](Analysis/Screenshots/sshd_segfaults.jpg)
@@ -59,9 +59,9 @@ o	Evidence: The clustering of crashes across multiple PIDs shows instability tri
 2) accepted password 
 Filter used : - :filter-in accepted password
  
-•	Evidence: 
-o	Multiple entries show “Accepted password for dhg” from IP 190.166.87.164 across different times, proving repeated external access.
-o	Evidence: Direct root logins from IPs like 151.81.204.141 and 122.226.202.12, confirming attackers had full administrative control
+# Evidence: 
+Multiple entries show “Accepted password for dhg” from IP 190.166.87.164 across different times, proving repeated external access.
+Evidence: Direct root logins from IPs like 151.81.204.141 and 122.226.202.12, confirming attackers had full administrative control
 
 
 ![Alt text](Analysis/Screenshots/Accepted_Password.jpg)
@@ -80,9 +80,9 @@ o	Evidence: Direct root logins from IPs like 151.81.204.141 and 122.226.202.12, 
 Filter used : - filter-in su:.*root
  
 
-•	Evidence: 
-o	Multiple entries show “session opened for user root” by user1 and user3, confirming privilege escalation from non-root accounts.
-o	Evidence: Authentication failures followed by successful su attempts highlight weak or shared root credentials being abused.
+# Evidence: 
+Multiple entries show “session opened for user root” by user1 and user3, confirming privilege escalation from non-root accounts.
+Evidence: Authentication failures followed by successful su attempts highlight weak or shared root credentials being abused.
 
 
 ![Alt text](Analysis/Screenshots/Su_root.jpg)
@@ -101,9 +101,9 @@ o	Evidence: Authentication failures followed by successful su attempts highlight
 4) php
 Filter used:- filter-in php
  
-•	Evidence: 
-o	Suspicious GET requests to wantsfly.com/prx2.php with hash parameters, indicating possible malicious probing or beaconing.
-o	Evidence: WordPress activity (wp-cron.php, plugin scripts) alongside repeated 404s suggests attackers were testing vulnerable endpoints in the PHP stack.
+# Evidence: 
+Suspicious GET requests to wantsfly.com/prx2.php with hash parameters, indicating possible malicious probing or beaconing.
+Evidence: WordPress activity (wp-cron.php, plugin scripts) alongside repeated 404s suggests attackers were testing vulnerable endpoints in the PHP stack.
 
 
 ![Alt text](Analysis/Screenshots/PHP.jpg)
@@ -123,9 +123,9 @@ o	Evidence: WordPress activity (wp-cron.php, plugin scripts) alongside repeated 
 Filter used:- filter-in Invalid user 
  
 
-•	Evidence: 
-o	Rapid sequence of “Invalid user” attempts from IP 65.208.122.48, cycling through usernames (diana, cam, astro, etc.) every few seconds.
-o	Evidence: Each failed password attempt is paired with a port number, showing an automated tool systematically probing the server.
+# Evidence: 
+Rapid sequence of “Invalid user” attempts from IP 65.208.122.48, cycling through usernames (diana, cam, astro, etc.) every few seconds.
+Evidence: Each failed password attempt is paired with a port number, showing an automated tool systematically probing the server.
 
 
 ![Alt text](Analysis/Screenshots/Brute Force.jpg)
@@ -140,7 +140,7 @@ o	Evidence: Each failed password attempt is paired with a port number, showing a
 
 
 
-Indicators of Compromise (IOCs)
+# Indicators of Compromise (IOCs)
 1.	Compromised Accounts
 •	root – multiple successful logins from external Ips
 •	dhg – repeated successful logins from 190.166.87.164 and 190.167.74.184
@@ -183,7 +183,7 @@ o	208.80.69.70
 •	Privilege Escalation: Frequent su attempts to root by user1 and user3.
 •	Brute-force: Automated spray attempts every 2 seconds from 65.208.122.48.
 
-Key Findings
+# Key Findings
 1.	Direct Root Compromise
 •	Multiple successful SSH logins to the root account from external IPs.
 •	This confirms full system compromise with attackers gaining unrestricted control.
@@ -220,7 +220,7 @@ Key Findings
 
 
 
-Recommendation
+# Recommendation
 1.	Immediate Isolation
 •	Disconnect the server from the network to prevent further attacker activity.
 •	Disable all external SSH access immediately.
@@ -262,7 +262,7 @@ o	Database accounts
 
 
 
-Conclusion
+# Conclusion
 The investigation shows that the server was not secure and was accessed by outsiders in ways that should never have been possible. There are clear signs of repeated logins, suspicious activity from different places, and unusual behavior that points to the system being under someone else’s control.
 The activity wasn’t just a one time event it continued over several days, showing that whoever got in was able to stay connected and move around freely. Alongside this, there were signs of instability and probing of the server’s applications, which suggests the compromise went beyond simple password guessing.
 In short, the system was fully taken over. The safest path forward is to rebuild it from scratch, change all access credentials, and put stronger protections in place so this kind of incident cannot happen again.
