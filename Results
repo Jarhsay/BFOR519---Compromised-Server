@@ -1,1 +1,51 @@
+Final Results: Compromised Server Investigation
+
+
+A) Overall Verdict
+The server is fully compromised. Attackers gained direct root access via SSH passwords, conducted brute-force attacks, exploited or destabilized the SSH service (sshd segfaults), and probed the WordPress/PHP stack.
+Evidence shows persistent access across multiple days, lateral movement via su, and system instability consistent with tampering or exploitation.This is not a minor intrusion it is a complete breach of 
+confidentiality, integrity, and availability.
+
+B) Detailed Findings
+   1. Initial Access
+    •	Attackers successfully logged in via SSH using password authentication.
+    •	Accounts compromised: root, dhg, user1, fido.
+    •	Multiple external IPs involved (e.g., 190.166.87.164, 151.81.204.141, 122.226.202.12).
+    •	Critical: Direct root logins confirm total system control without needing privilege escalation.
+   2. Privilege Escalation
+    •	Frequent su attempts to root by user1 and user3.
+    •	Authentication failures followed by successes suggest password guessing or shared root credentials.
+    •	Indicates lateral movement and misuse of local accounts.
+   3. Persistence & Activity
+    •	Successful logins repeated over multiple days and times.
+    •	Attackers maintained access from rotating IPs, showing intentional persistence.
+    •	Evidence of WordPress cron jobs and plugin activity suggests attackers may have leveraged the web stack for persistence or secondary exploitation.
+   4. Brute-force Attempts
+    •	Source IP 65.208.122.48 launched rapid, automated attempts against dozens of usernames (php, diana, cam, astro, etc.).
+    •	Classic dictionary attack behavior with attempts every 2 seconds.
+    •	Confirms the server was exposed to internet-wide scanning and brute-force campaigns.
+   5. System Instability
+    •	Kernel logs show dozens of sshd segfaults in bursts, all at the same memory address (RIP 8048e33).
+    •	This strongly suggests:
+       o	Exploit attempts against sshd.
+       o	Binary tampering or corruption.
+       o	Environment instability under attack load.
+    •	Implication: The sshd binary and system integrity cannot be trusted.
+   6. Web Layer Exposure
+    •	WordPress activity (wp-cron.php, plugin scripts).
+    •	Suspicious external GET requests to wantsfly.com/prx2.php with hash parameters.
+    •	Frequent 404s against odd image paths.
+    •	Implication: Attackers probed or attempted exploitation of the PHP/WordPress stack, possibly planting webshells. 
+
+C) Indicators of Compromise (IOCs)
+   •	Compromised Accounts: root, dhg, user1, fido
+   •	Malicious IPs:
+     o	SSH access: 190.166.87.164, 151.81.204.141, 122.226.202.12, 208.80.69.70
+    o	Brute-force: 65.208.122.48
+  •	Kernel Faults: sshd segfault at RIP 8048e33, error 4
+  •	Web Suspicion: wantsfly.com/prx2.php, WordPress plugin paths
+
+D) Final Result Statement
+The server is compromised beyond safe remediation.Attackers achieved root access, maintained persistent sessions, attempted brute-force attacks, and likely probed the web stack. 
+The sshd segfaults indicate possible exploitation or tampering.
 
