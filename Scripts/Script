@@ -1,0 +1,96 @@
+
+Command Descriptions (Ubuntu / lnav Usage)
+
+1. sudo apt update
+
+Updates the local package lists from configured repositories.
+This ensures your system knows about the latest available packages and versions.
+
+
+
+2. sudo apt install lnav -y
+
+Installs "lnav" (Log File Navigator).
+
+ "-y" automatically answers “yes” to install prompts.
+  lnav is a powerful CLI tool for viewing and filtering logs.
+
+
+
+3. lnav --version
+
+Displays the installed version of "lnav".
+Useful for verifying the installation and included in scripts for debugging or compatibility checks.
+
+
+
+4. /mnt/d/sanitized_log
+
+This refers to a directory path on the mounted Windows drive (WSL).
+"/mnt/d/" is how WSL mounts the D: drive.
+"sanitized_log" is most likely a folder containing log files.
+
+
+
+5. ls /mnt/d/sanitized_log
+
+Lists all files in the "sanitized_log" directory.
+Commonly used to verify the available log files before opening them in lnav.
+
+
+
+6. lnav /mnt/d/sanitized_log/
+
+Opens "lnav" and loads all log files inside the specified directory.
+lnav automatically detects formats (syslog, apache, auth logs, etc.) and indexes them.
+
+
+
+ lnav Filter Commands
+
+When inside the lnav interface, these filters refine which log entries are displayed.
+
+
+
+7.filter-in sshd.*segfault
+
+Displays only log lines that match the regex:
+"sshd.*segfault"
+Meaning: show logs where the SSH daemon (`sshd`) experienced or referenced a **segmentation fault**.
+
+Use case: debugging SSH crashes or exploitation attempts.
+
+
+
+8. filter-in accepted password
+
+Shows only log entries that contain the phrase "accepted password".
+
+Used to identify successful SSH login attempts.
+
+
+
+9. filter-in su:.*root
+
+Filters logs containing events where the "su" command was used to switch to the "root user".
+
+"su:.*root" = any log line starting with `su:` and mentioning `root`.
+
+Useful for privilege escalation auditing.
+
+
+
+10. filter-in php
+
+Shows only log entries containing the string "php".
+Used for debugging PHP applications or checking for PHP-related errors/attacks.
+
+
+
+11. filter-in invalid user
+
+Displays log entries containing "invalid user".
+This appears in "/var/log/auth.log" when someone attempts SSH login using a non-existent username.
+
+Useful for identifying brute-force attempts or suspicious login activity.
+
