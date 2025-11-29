@@ -12,7 +12,7 @@ Overall, the project emulates real-world work performed by SOC Analysts, Threat 
 
 # Methodology
 1. Environment Setup
-Commands executed:
+Commands executed: <br>
 sudo apt update — Updates package list <br>
 sudo apt install lnav -y — Installs lnav <br>
 lnav --version — Confirms installation <br>
