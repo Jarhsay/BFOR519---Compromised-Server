@@ -36,7 +36,7 @@ Inside lnav, the following filters were used:
 •	filter-in invalid user — Highlights brute-force or unauthorized login attempts
 
 # Screenshots & Evidence
-1) sshd segfault
+# 1) sshd segfault
 Filter used : - :filter-in sshd.*segfault
 
 # Evidence: 
@@ -56,7 +56,7 @@ Evidence: The clustering of crashes across multiple PIDs shows instability trigg
 
 
 
-2) accepted password 
+# 2) accepted password 
 Filter used : - :filter-in accepted password
  
 # Evidence: 
@@ -76,7 +76,7 @@ Evidence: Direct root logins from IPs like 151.81.204.141 and 122.226.202.12, co
 
 
 
-3) su.*root
+# 3) su.*root
 Filter used : - filter-in su:.*root
  
 
@@ -98,7 +98,7 @@ Evidence: Authentication failures followed by successful su attempts highlight w
 
 
 
-4) php
+# 4) php
 Filter used:- filter-in php
  
 # Evidence: 
@@ -119,7 +119,7 @@ Evidence: WordPress activity (wp-cron.php, plugin scripts) alongside repeated 40
 
 
 
-5) invalid user 
+# 5) invalid user 
 Filter used:- filter-in Invalid user 
  
 
