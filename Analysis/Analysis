@@ -1,1 +1,46 @@
+A) Detailed Analysis
+
+1. SSH Authentication Successes
+  •	Evidence: Multiple “Accepted password” entries for root, dhg, user1, and fido.
+  •	Suspicious Indicators:
+    o	Direct root logins from external IPs (151.81.204.141, 122.226.202.12, 94.52.185.9, 188.131.23.37).
+    o	Repeated logins for dhg from 190.166.87.164 and 190.167.74.184.
+  •	Interpretation: Password-based SSH was exploited. Root access confirms total compromise without needing privilege escalation.
+
+2. SSH Brute-force Attempts
+  •	Evidence: Flood of “Invalid user” and “Failed password” entries from 65.208.122.48.
+  •	Suspicious Indicators:
+    o	Rapid cycling through usernames (php, diana, astro, ashley, etc.) every 2 seconds.
+    o	Attempts against common service names like “php”.
+  •	Interpretation: Automated brute-force tool in use. Confirms internet-wide scanning pressure and weak defensive posture.
+
+3. Privilege Escalation via su
+  •	Evidence: Frequent su sessions to root by user1 and user3, with failures followed by successes.
+  •	Suspicious Indicators:
+    o	Authentication failures followed by eventual success.
+    o	Multiple sessions opened and closed for root.
+  •	Interpretation: Suggests lateral movement and misuse of shared root credentials. Attackers may have escalated from compromised user accounts.
+
+4. Kernel Instability (sshd segfaults)
+  •	Evidence: Dozens of sshd segfaults in bursts, all at RIP 8048e33, error 4.
+  •	Suspicious Indicators:
+    o	Identical crash addresses across multiple PIDs.
+    o	Clustering within seconds.
+  •	Interpretation: Strongly suggests exploit attempts, binary tampering, or corrupted runtime environment.
+  •	Implication: System integrity is broken; sshd cannot be trusted.
+
+5. Web Layer Exposure
+  •	Evidence: WordPress cron jobs (wp-cron.php) and plugin activity; suspicious GETs to wantsfly.com/prx2.php.
+  •	Suspicious Indicators:
+    o	External requests with hash parameters.
+    o	Frequent 404s probing odd image paths.
+  •	Interpretation: Attackers probed or exploited the WordPress/PHP stack, possibly planting webshells or leveraging vulnerable plugins.
+
+B)Indicators of Compromise (IOCs)
+  •	Compromised Accounts: root, dhg, user1, fido
+  •	Malicious IPs:
+    o	SSH access: 190.166.87.164, 151.81.204.141, 122.226.202.12, 208.80.69.70
+    o	Brute-force: 65.208.122.48
+  •	Kernel Faults: sshd segfault at RIP 8048e33, error 4
+  •	Web Suspicion: wantsfly.com/prx2.php, WordPress plugin paths
 
