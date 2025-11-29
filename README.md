@@ -44,7 +44,7 @@ o	Dozens of segfaults in sshd at the same memory address (RIP 8048e33), all with
 o	Evidence: The clustering of crashes across multiple PIDs shows instability triggered by repeated malicious inputs, not random system errors.
 
 
-![Alt text](path/to/image.jpg)
+![Alt text](Analysis/Screenshots/sshd_segfaults.jpg)
 
 
 
@@ -85,7 +85,7 @@ o	Multiple entries show “session opened for user root” by user1 and user3, c
 o	Evidence: Authentication failures followed by successful su attempts highlight weak or shared root credentials being abused.
 
 
-
+![Alt text](Analysis/Screenshots/Su_root.jpg)
 
 
 
@@ -106,7 +106,7 @@ o	Suspicious GET requests to wantsfly.com/prx2.php with hash parameters, indicat
 o	Evidence: WordPress activity (wp-cron.php, plugin scripts) alongside repeated 404s suggests attackers were testing vulnerable endpoints in the PHP stack.
 
 
-
+![Alt text](Analysis/Screenshots/PHP.jpg)
 
 
 
@@ -128,7 +128,7 @@ o	Rapid sequence of “Invalid user” attempts from IP 65.208.122.48, cycling t
 o	Evidence: Each failed password attempt is paired with a port number, showing an automated tool systematically probing the server.
 
 
-
+![Alt text](Analysis/Screenshots/Brute Force.jpg)
 
 
 
