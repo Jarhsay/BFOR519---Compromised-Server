@@ -41,7 +41,7 @@ Filter used : - :filter-in sshd.*segfault
 
 # Evidence: 
 Dozens of segfaults in sshd at the same memory address (RIP 8048e33), all within seconds, pointing to exploit attempts or binary corruption.
-Evidence: The clustering of crashes across multiple PIDs shows instability triggered by repeated malicious inputs, not random system errors.
+The clustering of crashes across multiple PIDs shows instability triggered by repeated malicious inputs, not random system errors.
 
 
 ![Alt text](Analysis/Screenshots/sshd_segfaults.jpg)
@@ -61,7 +61,7 @@ Filter used : - :filter-in accepted password
  
 # Evidence: 
 Multiple entries show “Accepted password for dhg” from IP 190.166.87.164 across different times, proving repeated external access.
-Evidence: Direct root logins from IPs like 151.81.204.141 and 122.226.202.12, confirming attackers had full administrative control
+Direct root logins from IPs like 151.81.204.141 and 122.226.202.12, confirming attackers had full administrative control
 
 
 ![Alt text](Analysis/Screenshots/Accepted_Password.jpg)
@@ -82,7 +82,7 @@ Filter used : - filter-in su:.*root
 
 # Evidence: 
 Multiple entries show “session opened for user root” by user1 and user3, confirming privilege escalation from non-root accounts.
-Evidence: Authentication failures followed by successful su attempts highlight weak or shared root credentials being abused.
+Authentication failures followed by successful su attempts highlight weak or shared root credentials being abused.
 
 
 ![Alt text](Analysis/Screenshots/Su_root.jpg)
@@ -103,7 +103,7 @@ Filter used:- filter-in php
  
 # Evidence: 
 Suspicious GET requests to wantsfly.com/prx2.php with hash parameters, indicating possible malicious probing or beaconing.
-Evidence: WordPress activity (wp-cron.php, plugin scripts) alongside repeated 404s suggests attackers were testing vulnerable endpoints in the PHP stack.
+WordPress activity (wp-cron.php, plugin scripts) alongside repeated 404s suggests attackers were testing vulnerable endpoints in the PHP stack.
 
 
 ![Alt text](Analysis/Screenshots/PHP.jpg)
@@ -125,7 +125,7 @@ Filter used:- filter-in Invalid user
 
 # Evidence: 
 Rapid sequence of “Invalid user” attempts from IP 65.208.122.48, cycling through usernames (diana, cam, astro, etc.) every few seconds.
-Evidence: Each failed password attempt is paired with a port number, showing an automated tool systematically probing the server.
+Each failed password attempt is paired with a port number, showing an automated tool systematically probing the server.
 
 
 ![Alt text](Analysis/Screenshots/Brute Force.jpg)
